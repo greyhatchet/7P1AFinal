@@ -747,4 +747,4 @@ def gameLoop():
     pygame.quit()
     quit()
 
-gameLoop()
+playGame()
