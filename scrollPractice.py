@@ -29,7 +29,7 @@ class BoardPiece():
 	def draw(self,background):
 		pygame.draw.circle(background, self.color, (self.absX,self.absY),10,0)
 
-	def diceRoll(self):
+	def diceRoll(self,x):
 		#check position on board and move piece appropriately
 		if self.xCord < 33 + (7 *44) or (self.xCord > 33 + (7*44) and self.xCord < 33 + (14*44) + 57):
 			self.absX += 44
@@ -42,9 +42,12 @@ class BoardPiece():
 			self.absX += 57
 			self.xCord += 57
 			self.absY += 115
-		elif self.xCord > 33 + (14*44) + 57:
+		elif self.xCord > 33 + (14*44) + 57 and self.xCord < 33 + (26*44) + 57:
 			self.absX += 44
 			self.xCord += 44
+		else:
+			self.xCord = 33
+			self.absX = self.xCord + x
 		
 			
 
@@ -116,24 +119,22 @@ while True:
 		dieNumber = random.randint(1,6)
 		print("player"+ str((n % 4) + 1) + " rolls " + str(dieNumber))
 		for i in range(dieNumber):
-			playerList[(n % 4)].diceRoll()
+			playerList[(n % 4)].diceRoll(x)
 		n+= 1
 
 	elif z == False:
-		prevX = x
 		x -= 44
-		p1.worldScroll(x-prevX)
-		p2.worldScroll(x-prevX)
-		p3.worldScroll(x-prevX)
-		p4.worldScroll(x-prevX)
+		p1.worldScroll(-44)
+		p2.worldScroll(-44)
+		p3.worldScroll(-44)
+		p4.worldScroll(-44)
 		
 	elif z == "y" and x < 0:
-		prevX = x
 		x += 44
-		p1.worldScroll(x-prevX)
-		p2.worldScroll(x-prevX)
-		p3.worldScroll(x-prevX)
-		p4.worldScroll(x-prevX)
+		p1.worldScroll(44)
+		p2.worldScroll(44)
+		p3.worldScroll(44)
+		p4.worldScroll(44)
 		
 
 
