@@ -192,7 +192,7 @@ def drawTextCentered(self, str, y_skip=-75, x_skip=0, line_width=0):
 
 
 
-'''class Jeopardy:
+class Jeopardy:
     # Question_dict structure is as follows:
     # question_dict = {category name:category_questions}; category_questions = {number of points:question}
     # The questions that are values are MCQuestion or TFQuestion objects
@@ -443,4 +443,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-'''
