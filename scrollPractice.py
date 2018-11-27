@@ -4,6 +4,9 @@ import sys
 import os
 import random
 
+num_players = 0
+player_list = []
+
 def events():
 	for event in pygame.event.get():
 		if event.type == QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):
@@ -49,99 +52,95 @@ class BoardPiece():
 			self.xCord = 33
 			self.absX = self.xCord + x
 		
-			
 
 	def worldScroll(self,scrollCord):
 		self.absX = self.absX + scrollCord
 
 
-
-# define display surface			
-W, H = 800, 700
-HW, HH = W / 2, H / 2
-AREA = W * H
-
-os.environ['SDL_VIDEO_WINDOW_POS'] = "50,50"
-
-# setup pygame
-pygame.init()
-CLOCK = pygame.time.Clock()
-DS = pygame.display.set_mode((W, H))
-pygame.display.set_caption("Game Board")
-FPS = 120
-
-#player objects
-
-p1 = BoardPiece((0,0,0),1)
-p2 = BoardPiece((100,100,100),2)
-p3 = BoardPiece((200,200,200),3)
-p4 = BoardPiece((255,255,255),4)
-
-playerList = [p1,p2,p3,p4]
-
-#very background image
-wayBack = pygame.image.load("SeemsCool.jpg").convert()
+def setNumPlayers(player_num):
+	global num_players
+	num_players = player_num
 
 
-bkgd = pygame.image.load("board.png").convert_alpha()
-bkgd = pygame.transform.scale(bkgd,(1300,600))
-x = 0
-#number of player switches
-n = 0
+def showBoard():
 
-roundCount = 1
-# main loop
-while True:
-	
-	#background blit
-	DS.blit(wayBack,(0,0))
-	z = events()
+	global num_players
+	global player_list
 
-	# relative x value 
-	rel_x = x % bkgd.get_rect().width
-	DS.blit(bkgd, (rel_x - bkgd.get_rect().width, 60))
+	# define display surface
+	W, H = 800, 700
+	HW, HH = W / 2, H / 2
+	AREA = W * H
 
-	#number of Rounds
-	numRounds = n // 4
-	
-	if rel_x < W:
-		x = 0
-		DS.blit(bkgd, (0, 60))
+	os.environ['SDL_VIDEO_WINDOW_POS'] = "50,50"
 
-		#update character locations upon snapping back to start
-		p1.absX = p1.xCord
-		p2.absX = p2.xCord
-		p3.absX = p3.xCord
-		p4.absX = p4.xCord
+	# setup pygame
+	pygame.init()
+	CLOCK = pygame.time.Clock()
+	DS = pygame.display.set_mode((W, H))
+	pygame.display.set_caption("Game Board")
+	FPS = 120
 
-	#if spacebar is hit
-	if z == True:
-		dieNumber = random.randint(1,6)
-		print("player"+ str((n % 4) + 1) + " rolls " + str(dieNumber))
-		for i in range(dieNumber):
-			playerList[(n % 4)].diceRoll(x)
-		n+= 1
+	#player objects
 
-	elif z == False:
-		x -= 44
-		p1.worldScroll(-44)
-		p2.worldScroll(-44)
-		p3.worldScroll(-44)
-		p4.worldScroll(-44)
-		
-	elif z == "y" and x < 0:
-		x += 44
-		p1.worldScroll(44)
-		p2.worldScroll(44)
-		p3.worldScroll(44)
-		p4.worldScroll(44)
-		
+	for i in range(num_players):
+		new_player = BoardPiece((i * 80, i * 80, i * 80), i+1)
+		player_list.append(new_player)
+
+	#very background image
+	wayBack = pygame.image.load("SeemsCool.jpg").convert()
 
 
-	p1.draw(DS)
-	p2.draw(DS)
-	p3.draw(DS)
-	p4.draw(DS)
+	bkgd = pygame.image.load("board.png").convert_alpha()
+	bkgd = pygame.transform.scale(bkgd,(1300,600))
+	x = 0
 
-	pygame.display.update()
-	CLOCK.tick(FPS)
+	#number of player switches
+	n = 0
+
+	roundCount = 1
+	# main loop
+	while True:
+
+		#background blit
+		DS.blit(wayBack,(0,0))
+		z = events()
+
+		# relative x value
+		rel_x = x % bkgd.get_rect().width
+		DS.blit(bkgd, (rel_x - bkgd.get_rect().width, 60))
+
+		#number of Rounds
+		numRounds = n // 4
+
+		if rel_x < W:
+			x = 0
+			DS.blit(bkgd, (0, 60))
+
+			#update character locations upon snapping back to start
+			for player in player_list:
+				player.absx = player.xCord
+
+		#if spacebar is hit
+		if z == True:
+			dieNumber = random.randint(1,6)
+			print("player"+ str((n % num_players) + 1) + " rolls " + str(dieNumber))
+			for i in range(dieNumber):
+				player_list[(n % num_players)].diceRoll(x)
+			n += 1
+
+		elif z == False:
+			x -= 44
+			for player in player_list:
+				player.worldScroll(-44)
+
+		elif z == "y" and x < 0:
+			x += 44
+			for player in player_list:
+				player.worldScroll(44)
+
+		for player in player_list:
+			player.draw(DS)
+
+		pygame.display.update()
+		CLOCK.tick(FPS)
