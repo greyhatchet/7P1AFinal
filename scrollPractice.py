@@ -31,11 +31,22 @@ class BoardPiece():
 
 	def diceRoll(self):
 		#check position on board and move piece appropriately
-		if self.absX < 33 + (7 *44):
+		if self.xCord < 33 + (7 *44) or (self.xCord > 33 + (7*44) and self.xCord < 33 + (14*44) + 57):
 			self.absX += 44
-			self.xCord = self.absX
-		if self.xCord == 33 + (7*44):
-			pass
+			self.xCord += 44
+		elif self.xCord == 33 + (7*44):
+			self.absX += 57
+			self.xCord += 57
+			self.absY -= 115
+		elif self.xCord == 33 + (14*44) + 57:
+			self.absX += 57
+			self.xCord += 57
+			self.absY += 115
+		elif self.xCord > 33 + (14*44) + 57:
+			self.absX += 44
+			self.xCord += 44
+		
+			
 
 	def worldScroll(self,scrollCord):
 		self.absX = self.absX + scrollCord
