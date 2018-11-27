@@ -53,7 +53,7 @@ os.environ['SDL_VIDEO_WINDOW_POS'] = "50,50"
 pygame.init()
 CLOCK = pygame.time.Clock()
 DS = pygame.display.set_mode((W, H))
-pygame.display.set_caption("code.Pylet - Scrolling Background Image")
+pygame.display.set_caption("Game Board")
 FPS = 120
 
 #player objects
@@ -103,7 +103,7 @@ while True:
 	#if spacebar is hit
 	if z == True:
 		dieNumber = random.randint(1,6)
-		print("player"+ str(n % 4) + " rolls " + str(dieNumber))
+		print("player"+ str((n % 4) + 1) + " rolls " + str(dieNumber))
 		for i in range(dieNumber):
 			playerList[(n % 4)].diceRoll()
 		n+= 1
