@@ -111,7 +111,7 @@ wayBack = pygame.image.load("SeemsCool.jpg").convert()
 dice = pygame.image.load('dice2.png').convert_alpha()
 # dice = pygame.transform.scale(dice, (75, 75))
 
-bkgd = pygame.image.load("board.png").convert_alpha()
+bkgd = pygame.image.load("board1.png").convert_alpha()
 bkgd = pygame.transform.scale(bkgd, (1300, 600))
 x = 0
 # number of player switches
