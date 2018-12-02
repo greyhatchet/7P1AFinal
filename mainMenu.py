@@ -1,5 +1,6 @@
 import pygame
-from scrollPractice import *
+from gameBoard import *
+#from question_handling import *
 
 
 #player_number = 1
@@ -211,7 +212,7 @@ def numPlayers():
                 # print("4")
 
             #This line connects to number of players in Trivia
-            setNumPlayers(player_number)
+            #setNumPlayers(player_number)
 
     # displays number of players on screen
     TextSurf2, TextRect2 = text_objects("Number of Players: " + str(player_number), mediumText)
@@ -222,12 +223,20 @@ def numPlayers():
     #button("Start", 350, 450, 100, 50, green, lavender, main)
 
     #This button should connect to main in our game file
-    button("Start", 350, 450, 100, 50, green, lavender, showBoard)
+    button("Start", 350, 450, 100, 50, green, lavender, goToBoard)
 
 
 
     pygame.display.update()
     clock.tick(40)
+
+def goToBoard():
+    global intro
+    global how_to
+    global playnum_screen
+    intro, how_to, playnum_screen = False, False, False
+    setNumPlayers(player_number)
+    boardLoop()
 
 
 while intro:
