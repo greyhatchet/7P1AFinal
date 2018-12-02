@@ -1,7 +1,15 @@
+# File: mainMenu.py
+# Description: be sure to have pygame downloaded, initial menu should be start menu, which leads to the board/map
+
+# Credits - 
+# Fonts used from magofonts: mago1, mago3
+# Fonts attributed to: magodev
+# https://magodev.itch.io/
+# Music attributed to
+
 import pygame
 from gameBoard import *
 #from question_handling import *
-
 
 #player_number = 1
 intro = True
@@ -10,7 +18,6 @@ playnum_screen = False
 
 pygame.init()
 
-# Music attributed to
 '''mus = pygame.mixer.Sound('8bitJep.wav')
 mus.play(-1)'''
 
@@ -29,11 +36,6 @@ red = (205, 92, 92)
 yellow = (255,250,205)
 pale_blue = (175,228,238)
 
-'''
-    Fonts used from magofonts: mago1, mago3
-    Fonts attributed to: magodev
-    https://magodev.itch.io/
-'''
 
 # sets display, caption, and clock
 gameDisplay = pygame.display.set_mode((display_width, display_height))
