@@ -131,37 +131,36 @@ def howTo():
     gameDisplay.blit(TextSurf, TextRect)
 
     # text 1
-    TextSurf1, TextRect1 = text_objects("Press 'Select Players' to select the number of players.", mediumText)
+    TextSurf1, TextRect1 = text_objects("Click the button to select the number of players using the keyboard.", mediumText)
     TextRect1.center = ((display_width / 2), (display_height / 2) - 140)
     gameDisplay.blit(TextSurf1, TextRect1)
 
     # text 2
-    TextSurf6, TextRect6 = text_objects("Use the keyboard to type a number from 1-4 and click 'Start'", mediumText)
-    TextRect6.center = ((display_width / 2), (display_height / 2) - 100)
+    TextSurf6, TextRect6 = text_objects("Press the spacebar to roll the die and 'R' to scroll", mediumText)
+    TextRect6.center = ((display_width / 2), (display_height / 2) - 80)
     gameDisplay.blit(TextSurf6, TextRect6)
 
     # text 2
-    TextSurf2, TextRect2 = text_objects("Do other things", mediumText)
-    TextRect2.center = ((display_width / 2), (display_height / 2) - 60)
+    TextSurf2, TextRect2 = text_objects("A minigame can be triggered by landing on certain spaces", mediumText)
+    TextRect2.center = ((display_width / 2), (display_height / 2) - 20)
     gameDisplay.blit(TextSurf2, TextRect2)
 
     # text 3
-    TextSurf3, TextRect3 = text_objects("And More things", mediumText)
-    TextRect3.center = ((display_width / 2), (display_height / 2) - 20)
+    TextSurf3, TextRect3 = text_objects("If a trivia question is displayed, answer by using the keyboard", mediumText)
+    TextRect3.center = ((display_width / 2), (display_height / 2) + 40)
     gameDisplay.blit(TextSurf3, TextRect3)
 
     # text 4
-    TextSurf4, TextRect4 = text_objects("Pass the keyboard and mouse to the next player and continue playing",
-                                        smallmedText)
-    TextRect4.center = ((display_width / 2), (display_height / 2) + 20)
+    TextSurf4, TextRect4 = text_objects("If a platform game is displayed, use the keyboard to complete the level", smallmedText)
+    TextRect4.center = ((display_width / 2), (display_height / 2) + 100)
     gameDisplay.blit(TextSurf4, TextRect4)
 
     # text 5
-    TextSurf5, TextRect5 = text_objects("so many things", largemedText)
-    TextRect5.center = ((display_width / 2), (display_height / 2) + 80)
+    TextSurf5, TextRect5 = text_objects("The player with the highest score wins", mediumText)
+    TextRect5.center = ((display_width / 2), (display_height / 2) + 150)
     gameDisplay.blit(TextSurf5, TextRect5)
 
-    button("Select Players", 350, 500, 100, 50, green, lavender, numPlayers)
+    button("Select Players", 350, 550, 100, 50, green, lavender, numPlayers)
 
     pygame.display.update()
     clock.tick(40)
