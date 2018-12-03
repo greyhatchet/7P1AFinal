@@ -1,9 +1,9 @@
 import ast
 
-def readQuestion():
+def readQuestion(file_name):
     question_list = []
     try:
-        with open('questions.txt','r') as file:
+        with open(str(file_name + '_questions.txt'),'r') as file:
             for line in file:
                 if len(line) > 1:
                     question_lines = line.split(';')
@@ -20,5 +20,3 @@ def readQuestion():
         print('Question file not found! Returning empty list')
 
     return question_list
-
-print(readQuestion())
