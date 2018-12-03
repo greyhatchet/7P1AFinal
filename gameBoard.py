@@ -109,6 +109,7 @@ ANSWER = 'answer'
 MC_answer_keys = [pygame.K_1, pygame.K_2, pygame.K_3, pygame.K_4, pygame.K_5]
 TF_answer_keys = [pygame.K_1, pygame.K_2]
 
+# triviaEvents catches user key input for answerring questions and returning to the game board
 def triviaEvents(current_question, current_mode, active_player):
     global MC_answer_keys
     global TF_answer_keys
@@ -120,18 +121,21 @@ def triviaEvents(current_question, current_mode, active_player):
             if current_mode == QUESTION and \
                 (current_question.getType() == 'MC' and event.key in MC_answer_keys) or \
                     (current_question.getType() == 'TF' and event.key in TF_answer_keys):
+                # key_num converts character code into a list index (e.g. K_3 -> 51 -> 3 -> 2)
                 key_num = int(event.key) - 48 - 1
                 correct_ans_num = current_question.getAnsNum()
                 if key_num == correct_ans_num:
-                    # if correct input entered, add points, and go to answer state
+                    # If correct input entered, add points, and go to answer state
                     active_player.addScore(current_question.getValue())
                     print('Correct! +' + str(current_question.getValue()) + ' points')
                 return 'answered'
             elif current_mode == ANSWER and event.key == K_RETURN:
+                # If enter key is pressed while answer is displayed, return to the game board
                 return 'done'
     return
 
 
+# triviaMinigame loops until player answers question and hits enter to return to game board
 def triviaMinigame(question_list, active_player):
     global num_questions
     print('Beginning trivia game')
@@ -148,7 +152,6 @@ def triviaMinigame(question_list, active_player):
         elif new_event == 'done':
             minigame_over = True
             break
-
 
 
 # player objects
@@ -189,7 +192,7 @@ current_mode = BOARD
 game_over = False
 
 # Lists for storing the cell numbers which contain minigames
-trivia_cells = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 18]
+trivia_cells = [2, 5, 7, 10, 16, 21, 26, 32, 38, 43, 47, 51]
 platform_cells = []
 
 # main function, handles everything between starting from player select menu and game over
@@ -211,6 +214,7 @@ def boardLoop():
             DS.blit(wayBack, (0, 0))
             z = boardEvents()
 
+            current_player_index = n % num_players
             # relative x value
             rel_x = x % bkgd.get_rect().width
             DS.blit(bkgd, (rel_x - bkgd.get_rect().width, 60))
@@ -218,8 +222,8 @@ def boardLoop():
             message_to_screen("Press space to roll", RED, -262, -270, 24)
             message_to_screen("Press R to scroll", RED, -275, -240, 24)
             for i in range(num_players):
-                message_to_screen("Player " + str(i + 1) + " score: " + str(player_list[n % num_players].getScore()),
-                                  RED, -290, 250 + (i * 25), 24)
+                message_to_screen("Player " + str(i + 1) + " score: " + str(player_list[i].getScore()),
+                                  RED, -275, 250 + (i * 25), 24)
             # number of Rounds
             numRounds = n // num_players
 
@@ -233,11 +237,12 @@ def boardLoop():
 
             # if spacebar is hit
             if z == True:
+                print('Player rolling : ', current_player_index)
                 die_number = random.randint(1, 6)
-                print("Player" + str((n % num_players) + 1) + " rolls " + str(die_number))
-                player_list[(n % num_players)].moveCells(die_number)
+                print("Player" + str(current_player_index + 1) + " rolls " + str(die_number))
+                player_list[current_player_index].moveCells(die_number)
                 for i in range(die_number):
-                    player_list[(n % num_players)].diceRoll(x)
+                    player_list[current_player_index].diceRoll(x)
 
                 medium_text = pygame.font.Font('mago3.ttf', 50)
                 text_surf, text_rect = text_objects(str(die_number), medium_text)
@@ -248,9 +253,10 @@ def boardLoop():
                 pygame.time.delay(500)
 
                 # Check if player lands on a trivia or platform minigame cell
-                if player_list[(n % num_players)].getCell() in trivia_cells:
-                    triviaMinigame(easy_questions, player_list[(n % num_players)])
-                elif player_list[(n % num_players)].getCell() in platform_cells:
+                if player_list[current_player_index].getCell() in trivia_cells:
+                    triviaMinigame(easy_questions, player_list[current_player_index])
+                    print('Current player score: ', player_list[current_player_index].getScore())
+                elif player_list[current_player_index].getCell() in platform_cells:
                     pass # Replace with appropriate code to start platforming game
                 n += 1
 

@@ -1,7 +1,5 @@
 import pygame
 from gameBoard import *
-#from question_handling import *
-
 
 #player_number = 1
 intro = True
@@ -223,14 +221,13 @@ def numPlayers():
     #button("Start", 350, 450, 100, 50, green, lavender, main)
 
     #This button should connect to main in our game file
-    button("Start", 350, 450, 100, 50, green, lavender, goToBoard)
-
-
+    button("Start", 350, 450, 100, 50, green, lavender, exitToBoard)
 
     pygame.display.update()
     clock.tick(40)
 
-def goToBoard():
+# exitToBoard is called when player clicks the start button, sets appropriate bools and sets player number
+def exitToBoard():
     global intro
     global how_to
     global playnum_screen
@@ -247,4 +244,5 @@ while how_to:
 while playnum_screen:
     # print("player num screen")
     numPlayers()
+# When all menu screens are finished, proceed to board using function from gameBoard.py
 boardLoop()
