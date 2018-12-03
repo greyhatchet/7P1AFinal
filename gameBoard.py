@@ -20,6 +20,7 @@ DS = pygame.display.set_mode((W, H))
 pygame.display.set_caption("Game Board")
 FPS = 120
 
+# Actions if keys are pressed
 def boardEvents():
     for event in pygame.event.get():
         if event.type == QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):
@@ -33,7 +34,7 @@ def boardEvents():
             return 'x'
     return
 
-
+# Player Class
 class BoardPiece:
     def __init__(self, color, playerNumber):
         self.color = color
@@ -162,6 +163,7 @@ p3 = BoardPiece((200, 200, 200), 3)
 p4 = BoardPiece((255, 255, 255), 4)
 all_player_list, player_list = [p1, p2, p3, p4], []
 
+# grabs number of players from mainMenu.py
 def setNumPlayers(player_num):
     global num_players
     global all_player_list
@@ -173,15 +175,22 @@ def setNumPlayers(player_num):
 # very background image
 wayBack = pygame.image.load("SeemsCool.jpg").convert()
 
+# dice that blits for 0.5 seconds
 dice = pygame.image.load('dice2.png').convert_alpha()
-# dice = pygame.transform.scale(dice, (75, 75))
 
+# Game board that is blit continuously 
 bkgd = pygame.image.load("board1.png").convert_alpha()
 bkgd = pygame.transform.scale(bkgd, (1300, 600))
-x = 0
+
+# Minigame screen that blits only when minigame is triggered
+minigame = pygame.image.load("minigame.png")
+minigame = pygame.transform.scale(minigame, (800,700))
+
+# x is the position
+x = 0 
 # number of player switches
 n = 0
-
+# we want to stop at a certain number of rounds. 
 roundCount = 1
 
 # Variable + constants for tracking current game mode and game over state
@@ -218,6 +227,7 @@ def boardLoop():
             # relative x value
             rel_x = x % bkgd.get_rect().width
             DS.blit(bkgd, (rel_x - bkgd.get_rect().width, 60))
+            # blit some information about Active player number to screen
             message_to_screen("Player " + str((n % num_players) + 1) + " rolls ", RED, -290, -300, 24)
             message_to_screen("Press space to roll", RED, -262, -270, 24)
             message_to_screen("Press R to scroll", RED, -275, -240, 24)
@@ -243,7 +253,8 @@ def boardLoop():
                 player_list[current_player_index].moveCells(die_number)
                 for i in range(die_number):
                     player_list[current_player_index].diceRoll(x)
-
+                
+                # Display the dice and rolled number for 0.5 seconds.
                 medium_text = pygame.font.Font('mago3.ttf', 50)
                 text_surf, text_rect = text_objects(str(die_number), medium_text)
                 text_rect.center = (360, 98)
@@ -254,12 +265,16 @@ def boardLoop():
 
                 # Check if player lands on a trivia or platform minigame cell
                 if player_list[current_player_index].getCell() in trivia_cells:
+                    DS.blit(minigame, (0,0))
+                    pygame.display.update()
+                    pygame.time.delay(1500)
                     triviaMinigame(easy_questions, player_list[current_player_index])
                     print('Current player score: ', player_list[current_player_index].getScore())
                 elif player_list[current_player_index].getCell() in platform_cells:
                     pass # Replace with appropriate code to start platforming game
                 n += 1
-
+            
+            # If the user wants to scroll: presses r
             elif z == '-x':
                 x -= 44
                 for player in player_list:
@@ -270,6 +285,7 @@ def boardLoop():
                 for player in player_list:
                     player.worldScroll(44)
 
+            # draw each player dot
             for player in player_list:
                 player.draw(DS)
 
