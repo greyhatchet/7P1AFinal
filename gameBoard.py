@@ -202,7 +202,7 @@ game_over = False
 
 # Lists for storing the cell numbers which contain minigames
 trivia_cells = [2, 5, 7, 10, 16, 21, 26, 32, 38, 43, 47, 51]
-platform_cells = []
+platform_cells = [1,3,6,11,15,19,] # Need to complete list of platform cells
 
 # main function, handles everything between starting from player select menu and game over
 # loops until game over state, at which point gameOver() is called
@@ -271,7 +271,11 @@ def boardLoop():
                     triviaMinigame(easy_questions, player_list[current_player_index])
                     print('Current player score: ', player_list[current_player_index].getScore())
                 elif player_list[current_player_index].getCell() in platform_cells:
-                    pass # Replace with appropriate code to start platforming game
+                    import platform
+                    platform.gameLoop()
+                    # Need to set up randomized levels
+                    # pass # Replace with appropriate code to start platforming game
+
                 n += 1
             
             # If the user wants to scroll: presses r

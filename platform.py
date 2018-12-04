@@ -671,10 +671,10 @@ def gameLoop():
                 player.health = 3
                 restart_level = True
                 if lives_left <= 0:
-                	pygame.mixer.music.stop()
-                	pygame.mixer.stop()
-                	game_over = True
-                	# game_over_sfx.play()
+                    pygame.mixer.music.stop()
+                    pygame.mixer.stop()
+                    game_over = True
+                    # game_over_sfx.play()
 
             # if r is pressed, return block to initial level position
             if restart_level == True:
