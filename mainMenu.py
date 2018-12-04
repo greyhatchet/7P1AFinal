@@ -35,7 +35,7 @@ pale_blue = (175,228,238)
 
 # sets display, caption, and clock
 gameDisplay = pygame.display.set_mode((display_width, display_height))
-pygame.display.set_caption('Trivia Game')
+pygame.display.set_caption('Game')
 clock = pygame.time.Clock()
 
 

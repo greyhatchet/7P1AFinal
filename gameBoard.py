@@ -154,6 +154,16 @@ def triviaMinigame(question_list, active_player):
             minigame_over = True
             break
 
+# def platformMinigame():
+#    import platform
+#    print('Beginning platform game')
+#    minigame_over = False
+#    while not minigame_over:
+#        DS.blit(wayBack, (0,0))
+#        platform.gameLoop()
+#        pygame.display.update()
+#        if game_over == True:
+#            break
 
 # player objects
 num_players = 1
@@ -202,7 +212,7 @@ game_over = False
 
 # Lists for storing the cell numbers which contain minigames
 trivia_cells = [2, 5, 7, 10, 16, 21, 26, 32, 38, 43, 47, 51]
-platform_cells = [1,3,6,11,15,19,] # Need to complete list of platform cells
+platform_cells = [1,3,6,11,15,19] # Need to complete list of platform cells
 
 # main function, handles everything between starting from player select menu and game over
 # loops until game over state, at which point gameOver() is called
@@ -272,7 +282,11 @@ def boardLoop():
                     print('Current player score: ', player_list[current_player_index].getScore())
                 elif player_list[current_player_index].getCell() in platform_cells:
                     import platform
+                    #platformMinigame()
                     platform.gameLoop()
+                    # need to figure out how to return to game screen
+                    print('Current player score: ', player_list[current_player_index].getScore())
+
                     # Need to set up randomized levels
                     # pass # Replace with appropriate code to start platforming game
 

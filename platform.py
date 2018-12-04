@@ -34,6 +34,13 @@ clock = pygame.time.Clock()
 BULLET_IMG = pygame.Surface((15, 9))
 BULLET_IMG.fill(pygame.Color('aquamarine2'))
 
+def message_to_screen(msg, color, x_displace=0, y_displace=0, font_size=0):
+    nice_font = pygame.font.Font('freesansbold.ttf', font_size)
+    textSurface = nice_font.render(msg, True, color)
+    textSurf, textRect = textSurface, textSurface.get_rect()
+    textRect.center = (W / 2) + x_displace, (H / 2) + y_displace
+    DS.blit(textSurf, textRect)
+
 class SpriteSheet(object):
     """ Class used to grab images out of a sprite sheet. """
 
@@ -691,6 +698,7 @@ def gameLoop():
             # If the player gets to the end of the level, go to the next level, if at end of last level, print you win
             current_position = player.rect.x + current_level.world_shift
             if current_position < current_level.level_limit:
+                game_over = True
                 if current_level_no < len(level_list) - 1:
                     player.rect.x = 120
                     current_level_no += 1
@@ -720,13 +728,17 @@ def gameLoop():
                 endgame = True
                 '''
                 pygame.mixer.music.stop()
-                message_to_screen("You win! Yuhhhhh", RED, 0, -50, 25)
-                message_to_screen('To quit: press q', GREY, 0, -30, 16)
-                message_to_screen('To restart level: press r', GREY, 0, -15, 16)
+                '''
+                #message_to_screen("You win! Yuhhhhh", RED, 0, -50, 25)
+                #message_to_screen('To quit: press q', GREY, 0, -30, 16)
+                #message_to_screen('To restart level: press r', GREY, 0, -15, 16)
+                '''
                 if playsound == 1:
                     win_sfx.play()
                     playsound += 1
+                '''
                 player.stop()
+            '''
             else:
                 message_to_screen("Countdown: " + str(countdown_time)[:4], RED, -10, -225,30)
                 message_to_screen("Level " + str((current_level_no)), RED, -400, -300, 24)
@@ -735,7 +747,8 @@ def gameLoop():
                 message_to_screen("Lives left: " + str(lives_left), RED, -390, -225, 18)
                 message_to_screen("Total score: " + str(int(total_score + current_level_score)), RED, -383, -200, 18)
                 message_to_screen("Enemies killed: " + str(enemies_killed + current_enemies_killed), RED, -366, -175,
-                                  18)'''
+                                  18)
+                                  '''
             # ALL CODE TO DRAW SHOULD GO ABOVE THIS COMMENT
 
             # Limit to 60 frames per second
@@ -746,4 +759,3 @@ def gameLoop():
 
     pygame.quit()
     quit()
-
