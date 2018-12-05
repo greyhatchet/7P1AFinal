@@ -102,16 +102,14 @@ def text_objects(text, font):
 
 
 # Trivia question loading parameters and constants for tracking mode
-num_questions = 5
-easy_questions = loadQuestions('easy', num_questions, 100)
-#medium_questions = loadQuestions('medium', num_questions, 200)
-#hard_questions = loadQuestions('hard', num_question, 300)
+num_questions, easy_questions = loadQuestions('easy', 100)
 QUESTION = 'question'
 ANSWER = 'answer'
 
 # Allowed answer keys for each type of question
 MC_answer_keys = [pygame.K_1, pygame.K_2, pygame.K_3, pygame.K_4, pygame.K_5]
 TF_answer_keys = [pygame.K_1, pygame.K_2]
+
 
 # triviaEvents catches user key input for answerring questions and returning to the game board
 def triviaEvents(current_question, current_mode, active_player):
@@ -271,7 +269,7 @@ def boardLoop():
             DS.blit(dice, (250, 0))
             DS.blit(text_surf, text_rect)
             pygame.display.update()
-            pygame.time.delay(2000)
+            pygame.time.delay(1500)
 
             # Check if player lands on a trivia or platform minigame cell
             if player_list[current_player_index].getCell() in trivia_cells:
@@ -281,12 +279,12 @@ def boardLoop():
                 triviaMinigame(easy_questions, player_list[current_player_index])
                 print('Current player score: ', player_list[current_player_index].getScore())
 
+
             elif player_list[current_player_index].getCell() in platform_cells:
                 DS.blit(minigame, (0, 0))
                 pygame.display.update()
                 pygame.time.delay(1500)
                 NewScore = platform.gameLoop()
-                print(NewScore)
                 player_list[current_player_index].addScore(NewScore)
                 print('Current player score: ', player_list[current_player_index].getScore())
 
