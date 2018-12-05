@@ -4,6 +4,8 @@ def readQuestion(file_name):
     question_list = []
     try:
         with open(str(file_name + '_questions.txt'),'r') as file:
+            num_q_str = file.readline()
+            num_q = int(num_q_str)
             for line in file:
                 if len(line) > 1:
                     question_lines = line.split(';')
@@ -19,4 +21,4 @@ def readQuestion(file_name):
     except(FileNotFoundError):
         print('Question file not found! Returning empty list')
 
-    return question_list
+    return num_q, question_list

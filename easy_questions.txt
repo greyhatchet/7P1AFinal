@@ -1,3 +1,5 @@
+5
+
 TF; All dogs are good boys.; 1;
 
 TF; Dogs do not have the ability to dream.; 0;

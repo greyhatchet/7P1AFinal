@@ -133,9 +133,9 @@ def drawTextCentered(str, center, screen, y_skip=-75, x_skip=0, line_width=0, li
     return line_skip
 
 
-def loadQuestions(file_name, num_questions, question_score):
+def loadQuestions(file_name, question_score):
     question_list = []
-    new_q_info_list = readQuestion(file_name)
+    num_questions, new_q_info_list = readQuestion(file_name)
     for i in range(num_questions):
         # Iterate through list of questions and create appropriate question type objects
         new_question_info = new_q_info_list[i]
@@ -146,7 +146,7 @@ def loadQuestions(file_name, num_questions, question_score):
             new_question = TFQuestion(new_question_info[1], int(new_question_info[2]), question_score)
         question_list.append(new_question)
 
-    return question_list
+    return num_questions, question_list
 
 
 def drawQuestion(current_question, current_mode, screen_width, center, screen):
