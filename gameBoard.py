@@ -284,8 +284,8 @@ def boardLoop():
                 DS.blit(minigame, (0, 0))
                 pygame.display.update()
                 pygame.time.delay(1500)
-                NewScore = platform.gameLoop()
-                player_list[current_player_index].addScore(NewScore)
+                new_score = platform.gameLoop()
+                player_list[current_player_index].addScore(new_score)
                 print('Current player score: ', player_list[current_player_index].getScore())
 
                 # Need to set up randomized levels
