@@ -26,6 +26,7 @@ BROWN = (53, 22, 0)
 
 pygame.init()
 
+
 # sets display, caption, and clock
 game_display = pygame.display.set_mode((display_width,display_height))
 pygame.display.set_caption("Waiting Game - Platformer")
@@ -39,8 +40,8 @@ def message_to_screen(msg, color, x_displace=0, y_displace=0, font_size=0):
     nice_font = pygame.font.Font('freesansbold.ttf', font_size)
     textSurface = nice_font.render(msg, True, color)
     textSurf, textRect = textSurface, textSurface.get_rect()
-    textRect.center = (W / 2) + x_displace, (H / 2) + y_displace
-    DS.blit(textSurf, textRect)
+    textRect.center = (display_width / 2) + x_displace, (display_height / 2) + y_displace
+    game_display.blit(textSurf, textRect)
 
 class SpriteSheet(object):
     """ Class used to grab images out of a sprite sheet. """
@@ -513,6 +514,242 @@ class Level_00(Level):
             block.player = self.player
             self.platform_list.add(block)
 
+
+# Create platforms for the level
+class Level_01(Level):
+    # Definition for level 2.
+
+    def __init__(self, player):
+        # Call the parent constructor
+        Level.__init__(self, player)
+
+        # Set the background
+        self.background = pygame.image.load("background-purple.png").convert()
+
+        self.level_limit = -1300
+        self.level_limit_back = 200
+
+        # spawn enemies
+        enemy_1 = Enemy()
+        enemy_1.setPosition(825, 360)
+        self.enemy_to_spawn.append(enemy_1.rect.x)
+        self.enemy_to_spawn.append(enemy_1.rect.y)
+        self.enemy_list.add(enemy_1)
+        enemy_2 = Enemy()
+        enemy_2.setPosition(700, 640)
+        self.enemy_to_spawn.append(enemy_2.rect.x)
+        self.enemy_to_spawn.append(enemy_2.rect.y)
+        self.enemy_list.add(enemy_2)
+
+        # Array with width, height, x, and y of platform
+        level = [
+            [1500, 30, 0, -10],  # roof
+            [1500, 30, 1500, -10],  # roof
+            [30, 1000, 0, 0],  # Left blocking
+            [500, 30, 0, 670],  # beg ground
+
+            [30, 150, 500, 550],  # A
+            [50, 30, 450, 550],  # B
+            [150, 30, 250, 430],  # C
+
+            [150, 30, 600, 350],  # D
+            [150, 30, 850, 420],  # E
+            [150, 30, 1000, 550],  # F
+            [150, 30, 1120, 280],  # G
+
+            [250, 30, 1300, 400],  # H
+            [30, 150, 1550, 400],  # I
+            [200, 30, 1550, 540],  # J
+            [30, 150, 1750, 540],  # K
+
+            [2000, 30, 1750, 670]  # end ground
+        ]
+
+        # Go through the array above and add platforms
+        for platform in level:
+            block = Platform(platform[0], platform[1])
+            block.rect.x = platform[2]
+            block.rect.y = platform[3]
+            block.player = self.player
+            self.platform_list.add(block)
+
+
+# Create platforms for the level
+class Level_02(Level):
+    # Definition for level 2.
+
+    def __init__(self, player):
+        # Call the parent constructor
+        Level.__init__(self, player)
+
+        # Set the background
+        self.background = pygame.image.load("background-purple.png").convert()
+
+        self.level_limit = -1500
+        self.level_limit_back = 200
+
+        # spawn enemies
+        enemy_1 = Enemy()
+        enemy_1.setPosition(1450, 340)
+        self.enemy_to_spawn.append(enemy_1.rect.x)
+        self.enemy_to_spawn.append(enemy_1.rect.y)
+        self.enemy_list.add(enemy_1)
+        enemy_2 = Enemy()
+        enemy_2.setPosition(1305, 640)
+        self.enemy_to_spawn.append(enemy_2.rect.x)
+        self.enemy_to_spawn.append(enemy_2.rect.y)
+        self.enemy_list.add(enemy_2)
+        enemy_3 = Enemy()
+        enemy_3.setPosition(1435, 640)
+        self.enemy_to_spawn.append(enemy_3.rect.x)
+        self.enemy_to_spawn.append(enemy_3.rect.y)
+        self.enemy_list.add(enemy_3)
+        enemy_4 = Enemy()
+        enemy_4.setPosition(1560, 640)
+        self.enemy_to_spawn.append(enemy_4.rect.x)
+        self.enemy_to_spawn.append(enemy_4.rect.y)
+        self.enemy_list.add(enemy_4)
+
+        # Array with width, height, x, and y of platform
+        level = [
+            [1500, 30, 0, -10],  # roof
+            [1500, 30, 1500, -10],  # roof
+            [30, 1000, 0, 0],  # Left blocking
+            [500, 30, 0, 670],  # beg ground
+
+            [150, 30, 250, 550],  # A
+            [30, 30, 500, 450],  # B
+            [300, 30, 600, 350],  # C
+            [250, 30, 870, 670],  # D
+            [200, 450, 1120, 550],  # E
+
+            [150, 30, 1475, 400],  # F
+            [150, 30, 1475, 250],  # G
+            [30, 300, 1750, 500],  # H
+
+            [2000, 30, 1750, 670]  # end ground
+        ]
+
+        # Go through the array above and add platforms
+        for platform in level:
+            block = Platform(platform[0], platform[1])
+            block.rect.x = platform[2]
+            block.rect.y = platform[3]
+            block.player = self.player
+            self.platform_list.add(block)
+
+
+class Level_03(Level):
+    # Definition for level 3.
+
+    def __init__(self, player):
+        # Call the parent constructor
+        Level.__init__(self, player)
+
+        # Set the background
+        self.background = pygame.image.load("background-purple.png").convert()
+
+        self.level_limit = -1400
+        self.level_limit_back = 200
+
+        # Array with width, height, x, and y of platform
+        level = [
+            [1500, 30, 0, -10],  # roof
+            [1500, 30, 1500, -10],  # roof
+            [30, 1000, 0, 0],  # Left blocking
+            [500, 30, 0, 670],  # beg ground
+            [50, 30, 550, 550],  # A
+            [50, 30, 650, 450],  # B
+            [50, 30, 750, 350],  # C
+            [50, 30, 850, 250],  # D
+            [50, 30, 950, 150],  # E
+            [50, 30, 1050, 250],  # F
+            [50, 30, 1150, 350],  # G
+            [50, 30, 1250, 450],  # H
+            [50, 30, 1350, 550],  # I
+            [50, 30, 1450, 450],  # J
+            [50, 30, 1550, 350],  # K
+            [50, 30, 1650, 450],  # L
+            [30, 300, 1750, 500],  # M
+            [2000, 30, 1750, 670]  # end ground
+        ]
+
+        # Go through the array above and add platforms
+        for platform in level:
+            block = Platform(platform[0], platform[1])
+            block.rect.x = platform[2]
+            block.rect.y = platform[3]
+            block.player = self.player
+            self.platform_list.add(block)
+
+
+class Level_04(Level):
+    # Definition for level 4.
+
+    def __init__(self, player):
+        # Call the parent constructor
+        Level.__init__(self, player)
+
+        # Set the background
+        self.background = pygame.image.load("background-purple.png").convert()
+
+        self.level_limit = -1400
+        self.level_limit_back = 200
+
+        # spawn enemies
+        enemy_1 = Enemy()
+        enemy_1.setPosition(975, 610)
+        self.enemy_to_spawn.append(enemy_1.rect.x)
+        self.enemy_to_spawn.append(enemy_1.rect.y)
+        self.enemy_list.add(enemy_1)
+        '''enemy_2 = Enemy()
+        enemy_2.setPosition(1475, 450)
+        self.enemy_to_spawn.append(enemy_2)
+        self.enemy_list.add(enemy_2)
+        enemy_3 = Enemy()
+        enemy_3.setPosition(1475, 550)
+        self.enemy_to_spawn.append(enemy_3)
+        self.enemy_list.add(enemy_3)
+        enemy_4 = Enemy()
+        enemy_4.setPosition(1475, 650)
+        self.enemy_to_spawn.append(enemy_3)
+        self.enemy_list.add(enemy_4)'''
+
+        # Array with width, height, x, and y of platform
+        level = [
+            [1500, 30, 0, -10],  # roof
+            [1500, 30, 1500, -10],  # roof
+            [30, 1000, 0, 0],  # Left blocking
+            [1500, 30, 0, 670],  # beg ground
+            [1500, 30, 1500, 670],  # beg ground
+
+            [30, 60, 300, 640],  # A
+            [30, 90, 400, 610],  # B
+            [30, 120, 500, 580],  # C
+            [30, 150, 600, 550],  # D
+            [30, 180, 700, 520],  # E
+            [30, 180, 800, 520],  # F
+            [30, 150, 900, 550],  # G
+            # enemy
+            [30, 150, 1250, 550],  # H
+            [30, 90, 1350, 610],  # I
+
+            [50, 100, 1500, 600],  # J
+            [50, 140, 1550, 560],  # K
+            [50, 180, 1600, 520],  # L
+            [50, 220, 1650, 480],  # M
+            [50, 260, 1700, 440],  # N
+
+        ]
+
+        # Go through the array above and add platforms
+        for platform in level:
+            block = Platform(platform[0], platform[1])
+            block.rect.x = platform[2]
+            block.rect.y = platform[3]
+            block.player = self.player
+            self.platform_list.add(block)
+
 def gameLoop():
     # Load required global variables
     global current_level_no
@@ -538,10 +775,10 @@ def gameLoop():
     level_list = []
     # change levels and update this
     level_list.append(Level_00(player))
-    # level_list.append(Level_01(player))
-    # level_list.append(Level_02(player))
-    # level_list.append(Level_03(player))
-    # level_list.append(Level_04(player))
+    level_list.append(Level_01(player))
+    level_list.append(Level_02(player))
+    level_list.append(Level_03(player))
+    level_list.append(Level_04(player))
 
     # Set the current level
     current_level_no = random.randint(0, len(level_list)-1)
@@ -556,7 +793,7 @@ def gameLoop():
     player.level = current_level
 
     # set player position
-    player.rect.x = 340
+    player.rect.x = 200
     position_scroll = 0
     player.rect.y = 500  # display_height - player.rect.height
     active_sprite_list.add(player)
@@ -581,12 +818,13 @@ def gameLoop():
     # -------- Main Program Loop -----------
     while not done:
         if not game_over:
+            print(current_level_score)
             # boolean to restart current level
             restart_level = False
 
             #current level time
             current_time = (pygame.time.get_ticks()- starting_time)/ 1000
-            countdown_time = current_level.level_time - current_time + pause_length
+            #countdown_time = current_level.level_time - current_time + pause_length
 
 
             if mScreen:
@@ -639,7 +877,7 @@ def gameLoop():
                         mScreen = False
                         starting_time = pygame.time.get_ticks()
                         current_time = (pygame.time.get_ticks()- starting_time)/ 1000
-                        countdown_time = current_level.level_time - current_time
+                        #countdown_time = current_level.level_time - current_time
                         pygame.mixer.music.play(-1)
                         endgame = False
 
@@ -673,21 +911,10 @@ def gameLoop():
                 current_level.shift_world(diff)
 
             # Player Death
-            if player.health == 0 or player.rect.y >= 650 or (countdown_time < 0 and endgame == False):
+            if player.health == 0 or player.rect.y >= 650:
                 current_level_score = 0
                 return -5
-                '''
-                # death_sfx.play()
-                lives_left -= 1
-                # updateSaveInfo()
-                player.health = 3
-                restart_level = True
-                if lives_left <= 0:
-                    pygame.mixer.music.stop()
-                    pygame.mixer.stop()
-                    game_over = True
-                    # game_over_sfx.play()
-                '''
+
 
             # if r is pressed, return block to initial level position
             if restart_level == True:
@@ -709,25 +936,6 @@ def gameLoop():
                 current_level_score = 0
                 return win_score + 50
 
-                '''
-                if current_level_no < len(level_list) - 1:
-                    player.rect.x = 120
-                    current_level_no += 1
-                    current_level = level_list[current_level_no]
-                    player.level = current_level
-                    position_scroll = 0
-                    bullet_list = pygame.sprite.Group()
-                    #updateSaveInfo()
-                    starting_time = pygame.time.get_ticks()
-                    pause_length = 0
-            
-                else:
-                    mScreen = True
-                    #updateSaveInfo()
-                    
-                    # make sure game over sound only plays once
-                    if playsound == 0:
-                        playsound = 1'''
 
             # ALL CODE TO DRAW SHOULD GO BELOW THIS COMMENT
             current_level.draw(game_display)
@@ -750,17 +958,11 @@ def gameLoop():
                     playsound += 1
                 '''
                 player.stop()
-            '''
+
             else:
-                message_to_screen("Countdown: " + str(countdown_time)[:4], RED, -10, -225,30)
-                message_to_screen("Level " + str((current_level_no)), RED, -400, -300, 24)
-                message_to_screen("If stuck, press r to restart level", RED, -307, -275, 18)
-                message_to_screen("Press P to pause", RED, -368, -250, 18)
-                message_to_screen("Lives left: " + str(lives_left), RED, -390, -225, 18)
-                message_to_screen("Total score: " + str(int(total_score + current_level_score)), RED, -383, -200, 18)
-                message_to_screen("Enemies killed: " + str(enemies_killed + current_enemies_killed), RED, -366, -175,
-                                  18)
-                                  '''
+                message_to_screen("Total score: " + str(current_level_score + 50), RED, -270, -275, 18)
+                message_to_screen("Dying score is -5 points", RED, -240, -250, 18)
+
             # ALL CODE TO DRAW SHOULD GO ABOVE THIS COMMENT
 
             # Limit to 60 frames per second
