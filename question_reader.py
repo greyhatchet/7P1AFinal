@@ -20,5 +20,12 @@ def readQuestion(file_name):
 
     except(FileNotFoundError):
         print('Question file not found! Returning empty list')
+        num_q = 0
+        question_list = []
+
+    except(TypeError):
+        print('Invalid file name. Returning empty list')
+        num_q = 0
+        question_list = []
 
     return num_q, question_list
