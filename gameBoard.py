@@ -272,21 +272,35 @@ def boardLoop():
             pygame.time.delay(1500)
 
             # Check if player lands on a trivia or platform minigame cell
-            if player_list[current_player_index].getCell() in trivia_cells:
-                DS.blit(minigame, (0,0))
+            if player_list[current_player_index].getCell() in trivia_cells or \
+                    player_list[current_player_index].getCell() in platform_cells:
+                if player_list[current_player_index].getCell() in trivia_cells:
+                    DS.blit(minigame, (0,0))
+                    pygame.display.update()
+                    pygame.time.delay(1500)
+                    old_score = player_list[current_player_index].getScore()
+                    triviaMinigame(easy_questions, player_list[current_player_index])
+                    new_score = player_list[current_player_index].getScore() - old_score
+                    print('Current player score: ', player_list[current_player_index].getScore())
+
+                elif player_list[current_player_index].getCell() in platform_cells:
+                    DS.blit(minigame, (0, 0))
+                    pygame.display.update()
+                    pygame.time.delay(1500)
+                    new_score = platform.gameLoop()
+                    player_list[current_player_index].addScore(new_score)
+                    print('Current player score: ', player_list[current_player_index].getScore())
+
+                large_text = pygame.font.Font('mago3.ttf', 100)
+                text1_surf, text1_rect = text_objects('Minigame complete!', large_text)
+                text1_rect.center = (400, 250)
+                text2_surf, text2_rect = text_objects('Score earned: ' + str(new_score), large_text)
+                text2_rect.center = (400, 300)
+                DS.blit(wayBack, (0, 0))
+                DS.blit(text1_surf, text1_rect)
+                DS.blit(text2_surf, text2_rect)
                 pygame.display.update()
                 pygame.time.delay(1500)
-                triviaMinigame(easy_questions, player_list[current_player_index])
-                print('Current player score: ', player_list[current_player_index].getScore())
-
-
-            elif player_list[current_player_index].getCell() in platform_cells:
-                DS.blit(minigame, (0, 0))
-                pygame.display.update()
-                pygame.time.delay(1500)
-                new_score = platform.gameLoop()
-                player_list[current_player_index].addScore(new_score)
-                print('Current player score: ', player_list[current_player_index].getScore())
 
                 # Need to set up randomized levels
 
