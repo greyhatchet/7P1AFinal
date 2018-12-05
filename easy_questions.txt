@@ -10,22 +10,22 @@ MC; Which dog breed was saved on the Titanic?; ('Maltese', 'Pomeranian', 'Shih T
 
 TF; Dogs have more than a dozen muscles in their ears; 1;
 
-MC; Which of the traditional five senses are dolphins believed not to possess?; ('touch', 'taste', 'smell', 'hearing'); 2
+MC; Which of the traditional five senses are dolphins believed not to possess?; ('touch', 'taste', 'smell', 'hearing'); 2;
 
-MC; The Great Red Spot is a gigantic storm located on which planet in our solar system?; ('Mars', 'Jupiter', 'Uranus', 'Venus'); 1
+MC; The Great Red Spot is a gigantic storm located on which planet in our solar system?; ('Mars', 'Jupiter', 'Uranus', 'Venus'); 1;
 
-TF; Area 51 is located in Arizona.; 0
+TF; Area 51 is located in Arizona.; 0;
 
-MC; The Carolina Reaper, Dorset Naga, and Trinidad Scorpion are varieties of what kind of edible plant?; ('Lettuce', 'Chili Pepper', 'Garlic', 'Carrot'); 1
+MC; The Carolina Reaper, Dorset Naga, and Trinidad Scorpion are varieties of what kind of edible plant?; ('Lettuce', 'Chili Pepper', 'Garlic', 'Carrot'); 1;
 
-MC; Which country is on the border between Spain and France?; ('Andorra', 'Netherlands', 'Luxembourg', 'Germany'); 0
+MC; Which country is on the border between Spain and France?; ('Andorra', 'Netherlands', 'Luxembourg', 'Germany'); 0;
 
-TF; The continent of Africa has never hosted an Olympic Games.; 1
+TF; The continent of Africa has never hosted an Olympic Games.; 1;
 
-MC; What was the first console video game that allowed the game to be saved?; ('Pokemon Red', 'Super Mario Bros.', 'Donkey Kong', 'The Legend of Zelda'); 3
+MC; What was the first console video game that allowed the game to be saved?; ('Pokemon Red', 'Super Mario Bros.', 'Donkey Kong', 'The Legend of Zelda'); 3;
 
-TF; The world's largest active volcano is located in Hawaii.; 1
+TF; The world's largest active volcano is located in Hawaii.; 1;
 
-TF; Ambidextrous means that an organism can survive both on land and in water.; 0
+TF; Ambidextrous means that an organism can survive both on land and in water.; 0;
 
-MC; How many US states border the Pacific Ocean?; ('3', '4', '5', '6'); 2
+MC; How many US states border the Pacific Ocean?; ('3', '4', '5', '6'); 2;
