@@ -81,6 +81,8 @@ class BoardPiece:
 
     def moveCells(self, move):
         self.cell_num += move
+        if self.cell_num > 28:
+            self.cell_num = self.cell_num - 28
         print(self.cell_num)
 
     def getCell(self):
@@ -131,7 +133,7 @@ def triviaEvents(current_question, current_mode, active_player):
                     active_player.addScore(current_question.getValue())
                     print('Correct! +' + str(current_question.getValue()) + ' points')
                 return 'answered'
-            elif current_mode == ANSWER and (event.key == K_RETURN) or (event.key == K_SPACE):
+            elif current_mode == ANSWER and ((event.key == K_RETURN) or (event.key == K_SPACE)):
                 # If enter key is pressed while answer is displayed, return to the game board
                 return 'done'
     return

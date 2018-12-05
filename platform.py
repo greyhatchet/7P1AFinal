@@ -581,7 +581,6 @@ def gameLoop():
     # -------- Main Program Loop -----------
     while not done:
         if not game_over:
-            print(current_level_score)
             # boolean to restart current level
             restart_level = False
 
