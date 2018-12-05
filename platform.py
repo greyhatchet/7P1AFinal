@@ -1,4 +1,5 @@
 import pygame
+import random
 
 global look_forward
 look_forward = True
@@ -543,6 +544,7 @@ def gameLoop():
     # level_list.append(Level_04(player))
 
     # Set the current level
+    current_level_no = random.randint(0, len(level_list)-1)
     current_level = level_list[current_level_no]
 
     # Start time of the level initialization
@@ -579,6 +581,7 @@ def gameLoop():
     # -------- Main Program Loop -----------
     while not done:
         if not game_over:
+            print(current_level_score)
             # boolean to restart current level
             restart_level = False
 
@@ -672,6 +675,7 @@ def gameLoop():
 
             # Player Death
             if player.health == 0 or player.rect.y >= 650 or (countdown_time < 0 and endgame == False):
+                current_level_score = 0
                 return -5
                 '''
                 # death_sfx.play()
@@ -702,7 +706,9 @@ def gameLoop():
             current_position = player.rect.x + current_level.world_shift
             if current_position < current_level.level_limit:
                 #game_over = True
-                return current_level_score + 50
+                win_score = current_level_score
+                current_level_score = 0
+                return win_score + 50
 
                 '''
                 if current_level_no < len(level_list) - 1:
