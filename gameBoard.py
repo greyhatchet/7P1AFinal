@@ -3,6 +3,7 @@ from pygame.locals import *
 import sys
 import os
 import random
+import platform
 from question_handling import *
 
 RED = (255, 0, 0)
@@ -73,7 +74,7 @@ class BoardPiece:
         self.absX = self.absX + scrollCord
 
     def getScore(self):
-        return self.score
+        return int(self.score)
 
     def addScore(self, value):
         self.score += value
@@ -130,7 +131,7 @@ def triviaEvents(current_question, current_mode, active_player):
                     active_player.addScore(current_question.getValue())
                     print('Correct! +' + str(current_question.getValue()) + ' points')
                 return 'answered'
-            elif current_mode == ANSWER and event.key == K_RETURN:
+            elif current_mode == ANSWER and (event.key == K_RETURN) or (event.key == K_SPACE):
                 # If enter key is pressed while answer is displayed, return to the game board
                 return 'done'
     return
@@ -203,16 +204,12 @@ n = 0
 # we want to stop at a certain number of rounds. 
 roundCount = 1
 
-# Variable + constants for tracking current game mode and game over state
-BOARD = 'board'
-TRIVIA = 'trivia'
-PLATFORM = 'platform'
-current_mode = BOARD
+# Variable for tracking game over state
 game_over = False
 
 # Lists for storing the cell numbers which contain minigames
 trivia_cells = [2, 5, 7, 10, 16, 21, 26, 32, 38, 43, 47, 51]
-platform_cells = [1,3,6,11,15,19] # Need to complete list of platform cells
+platform_cells = [1, 3, 6, 11, 15, 19, 25, 27, 29, 34, 39, 41, 49, 50]  # Need to complete list of platform cells
 
 # main function, handles everything between starting from player select menu and game over
 # loops until game over state, at which point gameOver() is called
@@ -221,94 +218,97 @@ def boardLoop():
     global num_players
     global x
     global n
-    global current_mode
     global game_over
     global trivia_cells
     global platform_cells
 
     while not game_over:
 
-        if current_mode == BOARD:
-            # background blit
-            DS.blit(wayBack, (0, 0))
-            z = boardEvents()
+        # background blit
+        DS.blit(wayBack, (0, 0))
+        z = boardEvents()
 
-            current_player_index = n % num_players
-            # relative x value
-            rel_x = x % bkgd.get_rect().width
-            DS.blit(bkgd, (rel_x - bkgd.get_rect().width, 60))
-            # blit some information about Active player number to screen
-            message_to_screen("Player " + str((n % num_players) + 1) + " rolls ", RED, -290, -300, 24)
-            message_to_screen("Press space to roll", RED, -262, -270, 24)
-            message_to_screen("Press R to scroll", RED, -275, -240, 24)
-            for i in range(num_players):
-                message_to_screen("Player " + str(i + 1) + " score: " + str(player_list[i].getScore()),
-                                  RED, -275, 250 + (i * 25), 24)
-            # number of Rounds
-            numRounds = n // num_players
+        current_player_index = n % num_players
+        # relative x value
+        rel_x = x % bkgd.get_rect().width
+        DS.blit(bkgd, (rel_x - bkgd.get_rect().width, 60))
+        # blit some information about Active player number to screen
+        message_to_screen("Player " + str((n % num_players) + 1) + " rolls ", RED, -290, -300, 24)
+        message_to_screen("Press space to roll", RED, -262, -270, 24)
+        message_to_screen("Press R to scroll", RED, -275, -240, 24)
+        for i in range(num_players):
+            message_to_screen("Player " + str(i + 1) + " score: " + str(player_list[i].getScore()),
+                              RED, -275, 250 + (i * 25), 24)
+        # number of Rounds
+        numRounds = n // num_players
 
-            if rel_x < W:
-                x = 0
-                DS.blit(bkgd, (0, 60))
+        if rel_x < W:
+            x = 0
+            DS.blit(bkgd, (0, 60))
 
-                # update character locations upon snapping back to start
-                for player in player_list:
-                    player.absX = player.xCord
-
-            # if spacebar is hit
-            if z == True:
-                print('Player rolling : ', current_player_index)
-                die_number = random.randint(1, 6)
-                print("Player" + str(current_player_index + 1) + " rolls " + str(die_number))
-                player_list[current_player_index].moveCells(die_number)
-                for i in range(die_number):
-                    player_list[current_player_index].diceRoll(x)
-                
-                # Display the dice and rolled number for 0.5 seconds.
-                medium_text = pygame.font.Font('mago3.ttf', 50)
-                text_surf, text_rect = text_objects(str(die_number), medium_text)
-                text_rect.center = (360, 98)
-                DS.blit(dice, (250, 0))
-                DS.blit(text_surf, text_rect)
-                pygame.display.update()
-                pygame.time.delay(500)
-
-                # Check if player lands on a trivia or platform minigame cell
-                if player_list[current_player_index].getCell() in trivia_cells:
-                    DS.blit(minigame, (0,0))
-                    pygame.display.update()
-                    pygame.time.delay(1500)
-                    triviaMinigame(easy_questions, player_list[current_player_index])
-                    print('Current player score: ', player_list[current_player_index].getScore())
-                elif player_list[current_player_index].getCell() in platform_cells:
-                    import platform
-                    #platformMinigame()
-                    platform.gameLoop()
-                    # need to figure out how to return to game screen
-                    print('Current player score: ', player_list[current_player_index].getScore())
-
-                    # Need to set up randomized levels
-                    # pass # Replace with appropriate code to start platforming game
-
-                n += 1
-            
-            # If the user wants to scroll: presses r
-            elif z == '-x':
-                x -= 44
-                for player in player_list:
-                    player.worldScroll(-44)
-
-            elif z == 'x' and x < 0:
-                x += 44
-                for player in player_list:
-                    player.worldScroll(44)
-
-            # draw each player dot
+            # update character locations upon snapping back to start
             for player in player_list:
-                player.draw(DS)
+                player.absX = player.xCord
 
+        for player in player_list:
+            player.draw(DS)
+
+        # if spacebar is hit
+        if z == True:
+            print('Player rolling : ', current_player_index)
+            die_number = random.randint(1, 6)
+            print("Player" + str(current_player_index + 1) + " rolls " + str(die_number))
+            player_list[current_player_index].moveCells(die_number)
+            for i in range(die_number):
+                player_list[current_player_index].diceRoll(x)
+
+            # Display the dice and rolled number for 0.5 seconds.
+            medium_text = pygame.font.Font('mago3.ttf', 50)
+            text_surf, text_rect = text_objects(str(die_number), medium_text)
+            text_rect.center = (360, 98)
+            DS.blit(dice, (250, 0))
+            DS.blit(text_surf, text_rect)
             pygame.display.update()
-            CLOCK.tick(FPS)
+            pygame.time.delay(2000)
+
+            # Check if player lands on a trivia or platform minigame cell
+            if player_list[current_player_index].getCell() in trivia_cells:
+                DS.blit(minigame, (0,0))
+                pygame.display.update()
+                pygame.time.delay(1500)
+                triviaMinigame(easy_questions, player_list[current_player_index])
+                print('Current player score: ', player_list[current_player_index].getScore())
+
+            elif player_list[current_player_index].getCell() in platform_cells:
+                DS.blit(minigame, (0, 0))
+                pygame.display.update()
+                pygame.time.delay(1500)
+                NewScore = platform.gameLoop()
+                print(NewScore)
+                player_list[current_player_index].addScore(NewScore)
+                print('Current player score: ', player_list[current_player_index].getScore())
+
+                # Need to set up randomized levels
+
+
+            n += 1
+
+        # If the user wants to scroll: presses r
+        elif z == '-x':
+            x -= 44
+            for player in player_list:
+                player.worldScroll(-44)
+
+        elif z == 'x' and x < 0:
+            x += 44
+            for player in player_list:
+                player.worldScroll(44)
+
+        # draw each player dot
+
+
+        pygame.display.update()
+        CLOCK.tick(FPS)
 
 
 def gameOver():

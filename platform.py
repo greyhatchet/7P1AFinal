@@ -260,7 +260,7 @@ class Bullet(pygame.sprite.Sprite):
             self.kill()
             block.kill()
             current_enemies_killed += 1
-            current_level_score += 100
+            current_level_score += 25
 
 
 class Enemy(pygame.sprite.Sprite):
@@ -672,6 +672,8 @@ def gameLoop():
 
             # Player Death
             if player.health == 0 or player.rect.y >= 650 or (countdown_time < 0 and endgame == False):
+                return -5
+                '''
                 # death_sfx.play()
                 lives_left -= 1
                 # updateSaveInfo()
@@ -682,6 +684,7 @@ def gameLoop():
                     pygame.mixer.stop()
                     game_over = True
                     # game_over_sfx.play()
+                '''
 
             # if r is pressed, return block to initial level position
             if restart_level == True:
@@ -698,7 +701,10 @@ def gameLoop():
             # If the player gets to the end of the level, go to the next level, if at end of last level, print you win
             current_position = player.rect.x + current_level.world_shift
             if current_position < current_level.level_limit:
-                game_over = True
+                #game_over = True
+                return current_level_score + 50
+
+                '''
                 if current_level_no < len(level_list) - 1:
                     player.rect.x = 120
                     current_level_no += 1
@@ -709,10 +715,11 @@ def gameLoop():
                     #updateSaveInfo()
                     starting_time = pygame.time.get_ticks()
                     pause_length = 0
+            
                 else:
                     mScreen = True
                     #updateSaveInfo()
-                    '''
+                    
                     # make sure game over sound only plays once
                     if playsound == 0:
                         playsound = 1'''
