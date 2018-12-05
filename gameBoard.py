@@ -100,10 +100,7 @@ def text_objects(text, font):
 
 
 # Trivia question loading parameters and constants for tracking mode
-num_questions = 5
-easy_questions = loadQuestions('easy', num_questions, 100)
-#medium_questions = loadQuestions('medium', num_questions, 200)
-#hard_questions = loadQuestions('hard', num_question, 300)
+num_questions, easy_questions = loadQuestions('easy', 100)
 QUESTION = 'question'
 ANSWER = 'answer'
 
