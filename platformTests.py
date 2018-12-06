@@ -1,4 +1,4 @@
-from Platform import *
+from platform import *
 import unittest
 
 
