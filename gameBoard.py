@@ -222,20 +222,18 @@ def setNumPlayers(player_num):
     num_players = player_num
     player_list = all_player_list[:num_players]
 
+#IMAGES
 
 # very background image
 wayBack = pygame.image.load("SeemsCool.jpg").convert()
-
 # dice that blits for 0.5 seconds
 dice = pygame.image.load('dice2.png').convert_alpha()
-
 # Game board that is blit continuously 
 bkgd = pygame.image.load("board.png").convert_alpha()
 bkgd = pygame.transform.scale(bkgd, (1300, 600))
-
 # Minigame screen that blits only when minigame is triggered
 #trivia
-minigame = pygame.image.load("minigame.png")
+minigame = pygame.image.load("triviaactivated.png")
 minigame = pygame.transform.scale(minigame, (800,700))
 #platformer
 platformmini = pygame.image.load("platformactivated.png")
@@ -243,7 +241,16 @@ platformmini = pygame.transform.scale(platformmini, (800,700))
 #pale blue screen
 palebluescreen = pygame.image.load("palebluescreen.png")
 
+#MUSIC
 
+# Music attributed to https://www.youtube.com/watch?v=gSnxvFCEwfE
+jepmus = pygame.mixer.Sound('8bitJep.wav')
+
+# platmus attributed to: http://cynicmusic.com http://pixelsphere.org
+platmus = pygame.mixer.Sound('platmus.wav')
+
+# boardmus Music attributed to https://www.youtube.com/watch?v=uEROKX0oBAA
+boardmus = pygame.mixer.Sound("boardmus.wav")
 # x is the position
 x = 0 
 # number of player switches
@@ -257,13 +264,13 @@ num_rolls = 0
 # Variable for tracking game over state
 game_over = False
 
-trivia_cells = []
+#trivia_cells = [1, 2, 3, 4, 5, 6, 7]
 #platform_cells = []
 '''
 ----------------------------------------------------- TEST
 '''
 # Lists for storing the cell numbers which contain minigames
-#trivia_cells = [2, 5, 7, 10, 16, 21, 26, 32, 38, 43, 47, 51]
+trivia_cells = [2, 5, 7, 10, 16, 21, 26, 32, 38, 43, 47, 51]
 platform_cells = [1, 3, 6, 11, 15, 19, 25, 27, 29, 34, 39, 41, 49, 50]  # Need to complete list of platform cells
 
 
@@ -271,6 +278,7 @@ platform_cells = [1, 3, 6, 11, 15, 19, 25, 27, 29, 34, 39, 41, 49, 50]  # Need t
 # main function, handles everything between starting from player select menu and game over
 # loops until game over state, at which point gameOver() is called
 def boardLoop():
+    boardmus.play(-1)
     global player_list
     global num_players
     global x
@@ -282,7 +290,7 @@ def boardLoop():
     done = False
     while not game_over:
         numRounds = num_rolls // num_players
-        if numRounds == 3:
+        if numRounds == 5:
             done = True
             gameOver()
 
@@ -298,7 +306,7 @@ def boardLoop():
         else:
             pass
         # blit some information about Active player number to screen
-        message_to_screen("Round " + str(num_rolls//num_players +1), black, -320, -300, 24)
+        message_to_screen("Round " + str(num_rolls//num_players +1) + ": " + str(4-num_rolls//num_players) + " round(s) left", black, -230, -300, 24)
         message_to_screen("Player " + str((n % num_players) + 1) + " rolls ", black, -290, -270, 24)
         message_to_screen("Press space to roll", black, -262, -240, 24)
         message_to_screen("Press R to scroll", black, -275, -210, 24)
@@ -338,20 +346,28 @@ def boardLoop():
             if player_list[current_player_index].getCell() in trivia_cells or \
                     player_list[current_player_index].getCell() in platform_cells:
                 if player_list[current_player_index].getCell() in trivia_cells:
+                    boardmus.stop()
+                    jepmus.play(-1)
                     DS.blit(minigame, (0,0))
                     pygame.display.update()
                     pygame.time.delay(1500)
                     old_score = player_list[current_player_index].getScore()
                     triviaMinigame(easy_questions, player_list[current_player_index])
                     new_score = player_list[current_player_index].getScore() - old_score
+                    jepmus.stop()
+                    boardmus.play(-1)
                     #print('Current player score: ', player_list[current_player_index].getScore())
 
                 elif player_list[current_player_index].getCell() in platform_cells:
+                    boardmus.stop()
+                    platmus.play(-1)
                     DS.blit(platformmini, (0, 0))
                     pygame.display.update()
                     pygame.time.delay(1500)
                     new_score = platform.gameLoop()
                     player_list[current_player_index].addScore(new_score)
+                    platmus.stop()
+                    boardmus.play(-1)
                     #print('Current player score: ', player_list[current_player_index].getScore())
 
                 large_text = pygame.font.Font('mago3.ttf', 100)
