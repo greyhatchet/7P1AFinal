@@ -194,8 +194,12 @@ bkgd = pygame.image.load("board.png").convert_alpha()
 bkgd = pygame.transform.scale(bkgd, (1300, 600))
 
 # Minigame screen that blits only when minigame is triggered
+#trivia
 minigame = pygame.image.load("minigame.png")
 minigame = pygame.transform.scale(minigame, (800,700))
+#platformer
+platformmini = pygame.image.load("platformactivated.png")
+platformmini = pygame.transform.scale(platformmini, (800,700))
 
 # x is the position
 x = 0 
@@ -284,7 +288,7 @@ def boardLoop():
                     print('Current player score: ', player_list[current_player_index].getScore())
 
                 elif player_list[current_player_index].getCell() in platform_cells:
-                    DS.blit(minigame, (0, 0))
+                    DS.blit(platformmini, (0, 0))
                     pygame.display.update()
                     pygame.time.delay(1500)
                     new_score = platform.gameLoop()
@@ -295,7 +299,7 @@ def boardLoop():
                 text1_surf, text1_rect = text_objects('Minigame complete!', large_text)
                 text1_rect.center = (400, 250)
                 text2_surf, text2_rect = text_objects('Score earned: ' + str(new_score), large_text)
-                text2_rect.center = (400, 300)
+                text2_rect.center = (400, 310)
                 DS.blit(wayBack, (0, 0))
                 DS.blit(text1_surf, text1_rect)
                 DS.blit(text2_surf, text2_rect)
