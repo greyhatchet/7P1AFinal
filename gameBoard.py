@@ -4,9 +4,18 @@ import sys
 import os
 import random
 import platform
+import endScreen
 from question_handling import *
 
 RED = (255, 0, 0)
+pale_blue = (175,228,238)
+black = (0,0,0)
+white = (255,255,255)
+green = (60,179,113)
+blue = (0, 0, 200)
+pink = (255,192,203)
+lavender = (221,160,221)
+red = (205,92,92)
 
 # define display surface
 W, H = 800, 700
@@ -83,7 +92,7 @@ class BoardPiece:
         self.cell_num += move
         if self.cell_num > 28:
             self.cell_num = self.cell_num - 28
-        print(self.cell_num)
+        #print(self.cell_num)
 
     def getCell(self):
         return self.cell_num
@@ -97,7 +106,7 @@ def message_to_screen(msg, color, x_displace=0, y_displace=0, font_size=0):
 
 
 def text_objects(text, font):
-    textSurface = font.render(text, True, RED)
+    textSurface = font.render(text, True, black)
     return textSurface, textSurface.get_rect()
 
 
@@ -129,7 +138,7 @@ def triviaEvents(current_question, current_mode, active_player):
                 if key_num == correct_ans_num:
                     # If correct input entered, add points, and go to answer state
                     active_player.addScore(current_question.getValue())
-                    print('Correct! +' + str(current_question.getValue()) + ' points')
+                    #print('Correct! +' + str(current_question.getValue()) + ' points')
                 return 'answered'
             elif current_mode == ANSWER and ((event.key == K_RETURN) or (event.key == K_SPACE)):
                 # If enter key is pressed while answer is displayed, return to the game board
@@ -140,7 +149,7 @@ def triviaEvents(current_question, current_mode, active_player):
 # triviaMinigame loops until player answers question and hits enter to return to game board
 def triviaMinigame(question_list, active_player):
     global num_questions
-    print('Beginning trivia game')
+    #print('Beginning trivia game')
     trivia_mode = QUESTION
     current_question = question_list[random.randint(0, num_questions - 1)]
     minigame_over = False
@@ -154,6 +163,37 @@ def triviaMinigame(question_list, active_player):
         elif new_event == 'done':
             minigame_over = True
             break
+
+def text_objects(text, font):
+    textSurface = font.render(text, True, black)
+    return textSurface, textSurface.get_rect()
+
+# button with Text, x coordinate, y coordinate, width, height, initial color, accent color, and action (function)
+def button(msg,x,y,w,h,ic,ac,action=None):
+    mouse = pygame.mouse.get_pos()
+    click = pygame.mouse.get_pressed()
+    # print(click)
+    if x+w > mouse[0] > x and y+h > mouse[1] > y:
+        pygame.draw.rect(DS, ac,(x,y,w,h))
+
+        if click[0] == 1 and action != None:
+            action()
+    else:
+        pygame.draw.rect(DS, ic,(x,y,w,h))
+
+    smallText = pygame.font.Font("mago1.ttf", 20)
+    textSurf, textRect = text_objects(msg, smallText)
+    textRect.center = ((x + (w / 2)), (y + (h / 2)))
+    DS.blit(textSurf, textRect)
+
+
+def message_display(text):
+    largeText = pygame.font.Font('mago3.ttf', 115)
+    TextSurf, TextRect = text_objects(text, largeText)
+    TextRect.center = ((W / 2), (H / 2))
+    DS.blit(TextSurf, TextRect)
+
+    pygame.display.update()
 
 # def platformMinigame():
 #    import platform
@@ -200,6 +240,9 @@ minigame = pygame.transform.scale(minigame, (800,700))
 #platformer
 platformmini = pygame.image.load("platformactivated.png")
 platformmini = pygame.transform.scale(platformmini, (800,700))
+#pale blue screen
+palebluescreen = pygame.image.load("palebluescreen.png")
+
 
 # x is the position
 x = 0 
@@ -208,12 +251,22 @@ n = 0
 # we want to stop at a certain number of rounds. 
 roundCount = 1
 
+#times rolled
+num_rolls = 0
+
 # Variable for tracking game over state
 game_over = False
 
+trivia_cells = []
+#platform_cells = []
+'''
+----------------------------------------------------- TEST
+'''
 # Lists for storing the cell numbers which contain minigames
-trivia_cells = [2, 5, 7, 10, 16, 21, 26, 32, 38, 43, 47, 51]
+#trivia_cells = [2, 5, 7, 10, 16, 21, 26, 32, 38, 43, 47, 51]
 platform_cells = [1, 3, 6, 11, 15, 19, 25, 27, 29, 34, 39, 41, 49, 50]  # Need to complete list of platform cells
+
+
 
 # main function, handles everything between starting from player select menu and game over
 # loops until game over state, at which point gameOver() is called
@@ -225,8 +278,13 @@ def boardLoop():
     global game_over
     global trivia_cells
     global platform_cells
-
+    global num_rolls
+    done = False
     while not game_over:
+        numRounds = num_rolls // num_players
+        if numRounds == 3:
+            done = True
+            gameOver()
 
         # background blit
         DS.blit(wayBack, (0, 0))
@@ -235,16 +293,17 @@ def boardLoop():
         current_player_index = n % num_players
         # relative x value
         rel_x = x % bkgd.get_rect().width
-        DS.blit(bkgd, (rel_x - bkgd.get_rect().width, 60))
+        if done == False:
+            DS.blit(bkgd, (rel_x - bkgd.get_rect().width, 60))
+        else:
+            pass
         # blit some information about Active player number to screen
-        message_to_screen("Player " + str((n % num_players) + 1) + " rolls ", RED, -290, -300, 24)
-        message_to_screen("Press space to roll", RED, -262, -270, 24)
-        message_to_screen("Press R to scroll", RED, -275, -240, 24)
+        message_to_screen("Round " + str(num_rolls//num_players +1), black, -320, -300, 24)
+        message_to_screen("Player " + str((n % num_players) + 1) + " rolls ", black, -290, -270, 24)
+        message_to_screen("Press space to roll", black, -262, -240, 24)
+        message_to_screen("Press R to scroll", black, -275, -210, 24)
         for i in range(num_players):
-            message_to_screen("Player " + str(i + 1) + " score: " + str(player_list[i].getScore()),
-                              RED, -275, 250 + (i * 25), 24)
-        # number of Rounds
-        numRounds = n // num_players
+            message_to_screen("Player " + str(i + 1) + " score: " + str(player_list[i].getScore()), black, -275, 250 + (i * 25), 24)
 
         if rel_x < W:
             x = 0
@@ -259,9 +318,9 @@ def boardLoop():
 
         # if spacebar is hit
         if z == True:
-            print('Player rolling : ', current_player_index)
+            #print('Player rolling : ', current_player_index)
             die_number = random.randint(1, 6)
-            print("Player" + str(current_player_index + 1) + " rolls " + str(die_number))
+            #print("Player" + str(current_player_index + 1) + " rolls " + str(die_number))
             player_list[current_player_index].moveCells(die_number)
             for i in range(die_number):
                 player_list[current_player_index].diceRoll(x)
@@ -269,8 +328,8 @@ def boardLoop():
             # Display the dice and rolled number for 0.5 seconds.
             medium_text = pygame.font.Font('mago3.ttf', 50)
             text_surf, text_rect = text_objects(str(die_number), medium_text)
-            text_rect.center = (360, 98)
-            DS.blit(dice, (250, 0))
+            text_rect.center = (360, 128)
+            DS.blit(dice, (250, 30))
             DS.blit(text_surf, text_rect)
             pygame.display.update()
             pygame.time.delay(1500)
@@ -285,7 +344,7 @@ def boardLoop():
                     old_score = player_list[current_player_index].getScore()
                     triviaMinigame(easy_questions, player_list[current_player_index])
                     new_score = player_list[current_player_index].getScore() - old_score
-                    print('Current player score: ', player_list[current_player_index].getScore())
+                    #print('Current player score: ', player_list[current_player_index].getScore())
 
                 elif player_list[current_player_index].getCell() in platform_cells:
                     DS.blit(platformmini, (0, 0))
@@ -293,7 +352,7 @@ def boardLoop():
                     pygame.time.delay(1500)
                     new_score = platform.gameLoop()
                     player_list[current_player_index].addScore(new_score)
-                    print('Current player score: ', player_list[current_player_index].getScore())
+                    #print('Current player score: ', player_list[current_player_index].getScore())
 
                 large_text = pygame.font.Font('mago3.ttf', 100)
                 text1_surf, text1_rect = text_objects('Minigame complete!', large_text)
@@ -310,6 +369,7 @@ def boardLoop():
 
 
             n += 1
+            num_rolls += 1
 
         # If the user wants to scroll: presses r
         elif z == '-x':
@@ -327,8 +387,26 @@ def boardLoop():
 
         pygame.display.update()
         CLOCK.tick(FPS)
+    done = True
+    while done:
+        endScreen.endMenu()
 
 
 def gameOver():
     # Some code to execute when one player wins or whatever
     global game_over
+    global done
+
+    player_scores = []
+    f = open("scores.txt", "w")
+    for i in range(num_players):
+        player_scores.append(player_list[i].getScore())
+    f.write(str(player_scores))
+    f.close()
+    #print("Now in gameOver()")
+
+
+    game_over = True
+
+
+
