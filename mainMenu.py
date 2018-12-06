@@ -8,9 +8,9 @@ playnum_screen = False
 
 pygame.init()
 
-# Music attributed to
-'''mus = pygame.mixer.Sound('8bitJep.wav')
-mus.play(-1)'''
+# boardmus Music attributed to https://www.youtube.com/watch?v=uEROKX0oBAA
+boardmus = pygame.mixer.Sound("boardmus.wav")
+boardmus.play(-1)
 
 # size of display screen
 display_width = 800
@@ -43,11 +43,6 @@ def text_objects(text, font):
     textSurface = font.render(text, True, black)
     return textSurface, textSurface.get_rect()
 
-'''
-Hey guys, I ran into this problem before:
-If you place two buttons in the exact same place one will write over 
-the other ie the button will not do what you want it to do :(
-'''
 
 def button(msg, x, y, w, h, ic, ac, action=None):
     mouse = pygame.mouse.get_pos()
@@ -244,4 +239,5 @@ while playnum_screen:
     # print("player num screen")
     numPlayers()
 # When all menu screens are finished, proceed to board using function from gameBoard.py
+boardmus.stop()
 boardLoop()
