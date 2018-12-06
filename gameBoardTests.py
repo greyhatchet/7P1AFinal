@@ -23,4 +23,3 @@ class testBoardPiece(unittest.TestCase):
         self.board.moveCells(1)
         self.assertEqual(self.board.cell_num, 1)
 
-        
