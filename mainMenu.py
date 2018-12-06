@@ -9,8 +9,10 @@ playnum_screen = False
 pygame.init()
 
 # boardmus Music attributed to https://www.youtube.com/watch?v=uEROKX0oBAA
-boardmus = pygame.mixer.Sound("boardmus.wav")
-boardmus.play(-1)
+#boardmus = pygame.mixer.Sound("boardmus.wav")
+#boardmus.play(-1)
+pygame.mixer.music.load('bm.mp3')
+pygame.mixer.music.play(-1)
 
 # size of display screen
 display_width = 800
@@ -239,5 +241,5 @@ while playnum_screen:
     # print("player num screen")
     numPlayers()
 # When all menu screens are finished, proceed to board using function from gameBoard.py
-boardmus.stop()
+pygame.mixer.music.stop()
 boardLoop()
