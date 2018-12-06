@@ -250,7 +250,7 @@ jepmus = pygame.mixer.Sound('8bitJep.wav')
 platmus = pygame.mixer.Sound('platmus.wav')
 
 # boardmus Music attributed to https://www.youtube.com/watch?v=uEROKX0oBAA
-boardmus = pygame.mixer.Sound("boardmus.wav")
+#boardmus = pygame.mixer.Sound("boardmus.wav")
 # x is the position
 x = 0 
 # number of player switches
@@ -278,7 +278,9 @@ platform_cells = [1, 3, 6, 11, 15, 19, 25, 27, 29, 34, 39, 41, 49, 50]  # Need t
 # main function, handles everything between starting from player select menu and game over
 # loops until game over state, at which point gameOver() is called
 def boardLoop():
-    boardmus.play(-1)
+    #boardmus.play(-1)
+    pygame.mixer.music.load('bm.mp3')
+    pygame.mixer.music.play(-1)
     global player_list
     global num_players
     global x
@@ -346,7 +348,7 @@ def boardLoop():
             if player_list[current_player_index].getCell() in trivia_cells or \
                     player_list[current_player_index].getCell() in platform_cells:
                 if player_list[current_player_index].getCell() in trivia_cells:
-                    boardmus.stop()
+                    pygame.mixer.music.stop()
                     jepmus.play(-1)
                     DS.blit(minigame, (0,0))
                     pygame.display.update()
@@ -355,11 +357,13 @@ def boardLoop():
                     triviaMinigame(easy_questions, player_list[current_player_index])
                     new_score = player_list[current_player_index].getScore() - old_score
                     jepmus.stop()
-                    boardmus.play(-1)
+                    #boardmus.play(-1)
+                    pygame.mixer.music.load('bm.mp3')
+                    pygame.mixer.music.play(-1)
                     #print('Current player score: ', player_list[current_player_index].getScore())
 
                 elif player_list[current_player_index].getCell() in platform_cells:
-                    boardmus.stop()
+                    pygame.mixer.music.stop()
                     platmus.play(-1)
                     DS.blit(platformmini, (0, 0))
                     pygame.display.update()
@@ -367,7 +371,9 @@ def boardLoop():
                     new_score = platform.gameLoop()
                     player_list[current_player_index].addScore(new_score)
                     platmus.stop()
-                    boardmus.play(-1)
+                    #boardmus.play(-1)
+                    pygame.mixer.music.load('bm.mp3')
+                    pygame.mixer.music.play(-1)
                     #print('Current player score: ', player_list[current_player_index].getScore())
 
                 large_text = pygame.font.Font('mago3.ttf', 100)
